@@ -10,13 +10,13 @@ const inquirer = require('inquirer');
 require('console.table'); 
 
 // connection to database
-const db = mysql2.createConnection({
+const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: process.env.DB_PW,
     database: process.env.DB_NAME
     },
-    console.log(`Now connected to the ${process.env.DB_name} database. `)
+    console.log(`Now connected to the ${process.env.DB_NAME} database. `)
 );
 
 const showOptions = () => {
@@ -25,15 +25,65 @@ const showOptions = () => {
         name: 'option',
         message: 'What would you like to do?',
         choices: [
-            'View all employees',
-            'View all departments',
-            'View all roles',
-            'Add an employee',
-            'Add a department',
-            'Add a role'
-        ]
-
-    }])
+            {
+                name: 'Add a department',
+                value: 'addDepartment',
+            },
+            {
+                name: 'Add a role',
+                value: 'addRole',
+            },
+            {
+                name: 'Add a employee',
+                value: 'addEmployee',
+            },
+            {
+            
+                name: 'View all departments',
+                value: 'viewDepartments',
+            },
+            {
+                name: 'View all roles',
+                value: 'viewRoles',
+            },
+            {
+                name: 'View all employees',
+                value: 'viewEmployees',
+            },
+            {
+                name: 'View employees by department',
+                value: 'empByDepartment',
+            },
+            {
+                name: 'Delete a department',
+                value: 'deleteDepartment',
+            },
+            {
+                name: 'Delete a role',
+                value: 'deleteRole',
+            },
+            {
+                name: 'Delete an employee',
+                value: 'deleteEmployee',
+            },
+            {
+                name: 'View department budgets',
+                value: 'viewBudgets',
+            },
+            {
+                name: 'Quit',
+                value: 'quit',
+            },
+        ]},
+    ])
+    .then(response => {
+        console.log(response);
+    })
+    .catch(error => {
+        console.log(error);
+    })
 }
+
+showOptions();
 
 module.exports = db;
