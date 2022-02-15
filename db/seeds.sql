@@ -2,7 +2,7 @@ INSERT INTO department (id, name)
 VALUES
 (1, 'Leads'),
 (2, 'Effects'),
-(3, 'Roles '),
+(3, 'Roles'),
 (4, 'Operations'),
 (5, 'Characters');
 
