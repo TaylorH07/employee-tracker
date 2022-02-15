@@ -104,7 +104,7 @@ const addDepartment = () => {
     .then(answer => {
         const sql = `INSERT INTO department (name)
                     VALUES (?)`;
-        connection.query(sql, answer.newDpt, (err, res) => {
+        db.query(sql, answer.newDpt, (err, res) => {
             if (err) throw err;
             console.log('Added ' + answer.newDpt + " to department table!"); 
     
@@ -149,7 +149,7 @@ const addRole = () => {
             // grab dept from department table
             const sqlRole = `SELECT name, id FROM department`; 
     
-            connection.promise().query(sqlRole, (err, data) => {
+            db.promise().query(sqlRole, (err, data) => {
                 if (err) throw err; 
         
             const department = data.map(({ name, id }) => ({ name: name, value: id }));
@@ -187,17 +187,51 @@ const addEmployee = () => {
 
 // function to show departments
 const showDepartments = () => {
-
+    console.log('Showing departments...\n');
+    const sql = `SELECT department.id AS id, department.name AS department FROM department`; 
+  
+    db.promise().query(sql, (err, rows) => {
+        if (err) throw err;
+        console.table(rows);
+        showOptions();
+    });
 }
 
 // function to show roles
 const showRoles = () => {
+    console.log('Showing roles...\n');
 
+    const sql = `SELECT role.id, role.title, department.name AS department
+                FROM role
+                INNER JOIN department ON role.department_id = department.id`;
+    
+    db.promise().query(sql, (err, rows) => {
+        if (err) throw err; 
+        console.table(rows); 
+        showOptions();
+    })
 }
 
 //function to show employees
 const showEmployees = () => {
-
+    console.log('Showing employees...\n'); 
+    const sql = `SELECT employee.id, 
+                        employee.first_name, 
+                        employee.last_name, 
+                        role.title, 
+                        department.name AS department,
+                        role.salary, 
+                        CONCAT (manager.first_name, " ", manager.last_name) AS manager
+                    FROM employee
+                        LEFT JOIN role ON employee.role_id = role.id
+                        LEFT JOIN department ON role.department_id = department.id
+                        LEFT JOIN employee manager ON employee.manager_id = manager.id`;
+  
+    db.promise().query(sql, (err, rows) => {
+        if (err) throw err; 
+        console.table(rows);
+        showOptions();
+    });
 }
 
 // function to delete a department
