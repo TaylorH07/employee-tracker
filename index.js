@@ -84,6 +84,22 @@ const showOptions = () => {
     })
 }
 
-showOptions();
+// function to add departments
 
-module.exports = db;
+// function to add roles
+
+// function to add employees
+
+// function to show departments
+
+// function to show roles
+
+//function to show employees
+
+// function to delete a department
+
+//function to delete a role
+
+// function to delete an employee
+
+showOptions();
